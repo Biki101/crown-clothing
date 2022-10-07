@@ -4,9 +4,18 @@ import { ReactComponent as Crwnlogo } from "../../assets/crown.svg";
 import "./navigation.styles.scss";
 import { UserContext } from "../../context/user.context";
 import { signOutUser } from "../../utils/firebase/firebase.utils";
+import CartIcon from "../../component/cart-icon/cart-icon.component";
+import CartDropdown from "../../component/cart-dropdown/cart-dropdown.component";
+import { CartContext } from "../../context/cart.context";
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
+  const { cartHidden, setCartHidden } = useContext(CartContext);
+  const handleCartClick = (event) => {
+    event.preventDefault();
+    setCartHidden(!cartHidden);
+    console.log(cartHidden);
+  };
   return (
     <Fragment>
       <div className="navigation">
@@ -26,7 +35,11 @@ const Navigation = () => {
               SIGN IN
             </Link>
           )}
+          <div onClick={handleCartClick}>
+            <CartIcon />
+          </div>
         </div>
+        {cartHidden ? null : <CartDropdown />}
       </div>
       <Outlet />
     </Fragment>
